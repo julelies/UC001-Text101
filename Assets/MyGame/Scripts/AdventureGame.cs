@@ -14,10 +14,10 @@ public class AdventureGame : MonoBehaviour
 
     //private static readonly System.Random getrandom = new System.Random(123);
 
-    [SerializeField] Text textIntroComponent;
-    [SerializeField] Text textStoryComponent;
-    [SerializeField] Text textComponentChoices;
-    [SerializeField] State startingState;
+    Text textIntroComponent;
+    public Text textStoryComponent;
+    public Text textComponentChoices;
+    public State startingState;
     public Image introBG;
     public Image storyBG;
     public Image storyMenueBG;
@@ -29,7 +29,7 @@ public class AdventureGame : MonoBehaviour
 
     private int passedStatesCount;
     private int collectedWoolCount;
-    private double dehydrationCount;
+    private double dehydrationprocess;
     private bool wait, overrideTextComponent;
     private bool infoOn;
     private string overrideText;
@@ -68,8 +68,11 @@ public class AdventureGame : MonoBehaviour
         textComponentChoices.text = actualState.GetStateStoryMenue();
         passedStatesCount = 0;
         collectedWoolCount = 0;
-        dehydrationCount = 0;
+        dehydrationprocess = 0.0 ;
         statesUntilRescue = 30;
+
+        ResetCounters();
+
         wait = false;
         Debug.Log("Enter");
 
@@ -88,7 +91,7 @@ public class AdventureGame : MonoBehaviour
                      "Name: Magda \n" +
                      "Age: 21 \n" +
                      "Dehydration: \n" +
-                     dehydrationCount + " %";
+                     dehydrationprocess + " %";
         return txt;
     }
 
@@ -98,18 +101,18 @@ public class AdventureGame : MonoBehaviour
         return txt;
     }
 
-    private void ResetCounters()
+    private void Reset()
     {
         passedStatesCount = 0;
         collectedWoolCount = 0;
-        dehydrationCount = 0;
+        dehydrationprocess = 0;
     }
 
     private State doTransition(State currentState, State nextState)
     {
 
         passedStatesCount += 1;
-        dehydrationCount = (dehydrationCount < 20) ? dehydrationCount += 0.5 : dehydrationCount = 20;
+        dehydrationprocess = (dehydrationprocess < 20) ? dehydrationprocess += 0.5 : dehydrationprocess = 20;
 
         if (passedStatesCount == statesUntilRescue)
         {
@@ -119,11 +122,11 @@ public class AdventureGame : MonoBehaviour
             return rescue;
         }
 
-        if (dehydrationCount == 20)
+        if (dehydrationprocess == 20)
         {
-            Debug.Log("Exit Dehydration " + dehydrationCount);
+            Debug.Log("Exit Dehydration " + dehydrationprocess);
             overrideTextComponent = wait = false;
-            dehydrationCount = 100;
+            dehydrationprocess = 100;
 
             //return (State)AssetDatabase.LoadAssetAtPath("Assets/MyGame/States/Dead.Dehydration.asset", typeof(State));
             var deadDehyd = Resources.Load<State>("States/Dead.Dehydration");
@@ -134,7 +137,7 @@ public class AdventureGame : MonoBehaviour
         if (nextState.name == "Info.Alarm")
         {
             ResetCounters();
-            Debug.Log("Counters Reseted + " + passedStatesCount + " " + collectedWoolCount + " " + dehydrationCount);
+            Debug.Log("Counters Reseted + " + passedStatesCount + " " + collectedWoolCount + " " + dehydrationprocess);
         }
 
         if (currentState.name != nextState.name)
@@ -203,8 +206,8 @@ public class AdventureGame : MonoBehaviour
             if (collectedWoolCount >= 2)
             {
                 collectedWoolCount -= 2;
-                dehydrationCount -= 1.5;
-                Debug.Log("Wool Knitted -2kg + 1L water for magda, current dehydration" + dehydrationCount);
+                dehydrationprocess -= 1.5;
+                Debug.Log("Wool Knitted -2kg + 1L water for magda, current dehydration" + dehydrationprocess);
 
             }
             else

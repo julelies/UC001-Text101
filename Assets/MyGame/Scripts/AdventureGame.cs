@@ -13,6 +13,8 @@ public class AdventureGame : MonoBehaviour
 {
 
     const int MAXSTATERESCUE = 30;
+    const int MAXDEHYDRATION = 20;
+
 
     //private static readonly System.Random getrandom = new System.Random(123);
 
@@ -37,6 +39,8 @@ public class AdventureGame : MonoBehaviour
     private string overrideText;
     private int statesUntilRescue;
     private int MAXSTATERESCUE;
+    private int MAXDEHYDRATION;
+
 
 
     pblic State actualState;

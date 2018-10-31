@@ -12,6 +12,8 @@ using UnityEditor;
 public class AdventureGame : MonoBehaviour
 {
 
+    const int MAXSTATERESCUE = 30;
+
     //private static readonly System.Random getrandom = new System.Random(123);
 
     Text textIntroComponent;
@@ -34,9 +36,10 @@ public class AdventureGame : MonoBehaviour
     private bool infoOn;
     private string overrideText;
     private int statesUntilRescue;
+    private int MAXSTATERESCUE;
 
 
-    State actualState;
+    pblic State actualState;
 
     private void SetupIntroUI()
     {
